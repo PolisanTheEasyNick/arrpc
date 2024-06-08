@@ -4,9 +4,19 @@ const log = (...args) => console.log(`[${rgb(88, 101, 242, 'arRPC')} > ${rgb(237
 import fs from 'node:fs';
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
+import axios from 'axios';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const DetectableDB = JSON.parse(fs.readFileSync(join(__dirname, 'detectable.json'), 'utf8'));
+var DetectableDB = JSON.parse(fs.readFileSync(join(__dirname, 'detectable.json'), 'utf8'));
+
+try {
+  const response = await axios.get('https://discord.com/api/v9/applications/detectable');
+  DetectableDB = response.data;
+  log("Got DetectableDB from Discord API");
+} catch (error) {
+  log('Error loading DetectableDB from Discord:', error);
+}
+
 
 import * as Natives from './native/index.js';
 const Native = Natives[process.platform];
@@ -101,7 +111,7 @@ export default class ProcessServer {
       }
     }
 
-    // log(`finished scan in ${(performance.now() - startTime).toFixed(2)}ms`);
-    // process.stdout.write(`\r${' '.repeat(100)}\r[${rgb(88, 101, 242, 'arRPC')} > ${rgb(237, 66, 69, 'process')}] scanned (took ${(performance.now() - startTime).toFixed(2)}ms)`);
+     // log(`finished scan in ${(performance.now() - startTime).toFixed(2)}ms`);
+     // process.stdout.write(`\r${' '.repeat(100)}\r[${rgb(88, 101, 242, 'arRPC')} > ${rgb(237, 66, 69, 'process')}] scanned (took ${(performance.now() - startTime).toFixed(2)}ms)`);
   }
 }

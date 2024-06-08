@@ -17,7 +17,8 @@
   },
   "homepage": "https://github.com/OpenAsar/arrpc#readme",
   "dependencies": {
-    "ws": "^8.11.0"
+    "ws": "^8.11.0",
+    "axios": "^1.7.2"
   },
   "type": "module",
   "bin": {
